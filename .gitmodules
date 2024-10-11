@@ -1,0 +1,9 @@
+[submodule "PiDRAM"]
+	path = PiDRAM
+	url = git@github.com:CMU-SAFARI/PiDRAM.git
+[submodule "litedram"]
+	path = litedram
+	url = git@github.com:fei-g/litedram.git
+[submodule "SiMRA-DRAM"]
+	path = SiMRA-DRAM
+	url = git@github.com:CMU-SAFARI/SiMRA-DRAM.git
