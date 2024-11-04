@@ -7,3 +7,6 @@
 [submodule "SiMRA-DRAM"]
 	path = SiMRA-DRAM
 	url = git@github.com:CMU-SAFARI/SiMRA-DRAM.git
+[submodule "DRAM-Voltage-Study"]
+	path = DRAM-Voltage-Study
+	url = git@github.com:CMU-SAFARI/DRAM-Voltage-Study.git
