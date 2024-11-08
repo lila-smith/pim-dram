@@ -1,7 +1,7 @@
 # pim-dram
 
 ## Project
-Implement Processing using Memory (PuM) in COTS DRAM on an FPGA development board. This processing should allow for the quicker calculation of trigger signal, indicating that the data entering the SDRAM should be retained. A faster trigger should allow for a smaller buffer of data to be kept, reducing the memory requirements for a project.
+Implement Processing using Memory (PuM) in simulations for a COTS DRAM. This processing should allow for the quicker calculation of trigger signal, indicating that the data entering the SDRAM should be retained. A faster trigger should allow for a smaller buffer of data to be kept, reducing the memory requirements for a project.
 
 ## Target users
 Users in the business of data acquisition with large data volumes that include irrelevant data that must be discarded to allow for the capture of important time frames.
@@ -14,9 +14,12 @@ Users in the business of data acquisition with large data volumes that include i
 - Simulation for performing processing using memory
 - Modeling showing write cycle comparison for time frames
 
+## More Information
+Initially, I planned to implement this on a physical FPGA dev board. Due to limitations described in the board feasability, I have opted to use SPICE simulations instead. In future, it would be interesting to pursue this. Eventually, I will put this information into the README, but at the moment while it is a work in progress, the sources and notes I am referencing can be found [here](https://docs.google.com/document/d/17VpXFgJ5rQSX3zSUVWTGDiuaDzQa-_d3HedM2vPnmm0/edit?usp=sharing).
+
 ## Plan for Sprints 4 & 5
 - Finish DRAM controller functionality
-- Integrate with DRAM-Voltage SPICE MODEL using ngspice
+- Integrate with DRAM-Voltage SPICE MODEL using [PyLTSpice](https://pyltspice.readthedocs.io/en/stable/)
 - Perform Monte-Carlo sim for various operations
 
 ## Plan for Sprint 3
