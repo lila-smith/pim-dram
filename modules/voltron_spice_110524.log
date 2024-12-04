@@ -1,0 +1,27 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\sm1th.AD\Documents\LTspice\voltron_spice_110524.asc
+Start Time: Wed Dec  4 14:47:05 2024
+solver = Normal
+Maximum thread count: 24
+
+
+
+WARNING: Node RA3 is floating.
+
+WARNING: Less than two connections to node ra3.  This node is used by m8.
+Per .tran options, skipping operating point for transient analysis.
+.step x=1
+
+
+
+.step x=2
+
+
+
+.step x=3
+tnom = 27
+temp = 27
+method = modified trap
+.step x=4
+Total elapsed time: 0.235 seconds.
+

@@ -1,0 +1,57 @@
+* C:\Users\sm1th.AD\Documents\LTspice\voltron_spice_110524.asc
+M1 N006 sense_N 0 0 nmos45lp l=0.27um w=0.22um
+VDD VDD 0 {vdd}
+VDDby2 VDDby2 0 {vddhalf}
+Vsp sense_P 0 PWL(34n {vdd} 34.05n 0 133n 0 133.005n {vdd}) Rser=100 Cpar=10fF
+M2 bitline1 bitline0 NLAT 0 nmos45hp l=0.16um w={ntw}
+M3 bitline0 bitline1 N006 0 nmos45hp l=0.16um w={ntw}
+M4 bitline1 Eq bitline0 0 nmos45hp l=0.16um w={prentw}
+M5 bitline0 Eq VDDby2 0 nmos45hp l=0.16um w={prentw}
+M6 VDDby2 Eq bitline1 0 nmos45hp l=0.16um w={prentw}
+M7 N001 ra0 N002 0 nmos45lp l=0.085um w=0.555um
+Cmbit0 mb0 N003 24fF
+M8 N007 ra3 mb3 0 nmos45lp l=0.085um w=0.055um
+Cmbit1 mb3 0 24fF
+Vra0 ra0 0 PWL(30n 0 30.5n 2.9 130n 2.9 130.5n 0) Rser=2048 Cpar=0.6pF
+M9 ACT sense_p VDD VDD pmos45lp l=0.27um w=0.22um
+M10 bitline1 bitline0 N004 VDD pmos45hp l=0.16um w={tw}
+M11 bitline0 bitline1 ACT VDD pmos45hp l=0.16um w={tw}
+Vsn sense_N 0 PWL(34n 0 34.005n {vdd} 133n {vdd} 133.005n 0) Rser=100 Cpar=10fF
+Cmbit2 N001 0 144fF
+Cmbit3 N005 0 144fF
+R1 N001 bitline0 10000
+R2 bitline1 N005 10000
+R4 0 N003 30000
+R3 N002 mb0 1000
+R5 N005 N007 1000
+R6 N004 ACT 25000
+R7 NLAT N006 25000
+M12 bitline0 EqNot VDDby2 VDD pmos45hp l=0.16um w={pretw}
+M13 VDDby2 EqNot bitline1 VDD pmos45hp l=0.16um w={pretw}
+Veq1 EqNot 0 PWL(0n 1.5 0.6n 0 25.6n 0 26.2n {vdd} 133n {vdd} 133.6n 0)
+Veq2 Eq 0 PWL(0n 0 0.6n 1.5 25.6n 1.5 26.2n 0 133n 0 133.6n {vdd})
+.model NMOS NMOS
+.model PMOS PMOS
+.lib C:\Users\sm1th.AD\AppData\Local\LTspice\lib\cmp\standard.mos
+.include cmosedu_models.txt
+* Bitline to array0
+* Bitline to array1
+.ic v(bitline0)={vddhalf} v(bitline1)={vddhalf} v(mb0)={vdd}
+.tran 230ns uic
+* Word line in array 0
+* Word line in array 1
+* CMOS Sense Amplifier
+* To pull the bit lines up to VDD, we have to add a PMOS sense amplifier or PSA. The signal ACT is\ncommon to all of the PSAs of the array (as NLAT for the NSA). The signal sense_P is active\nlow and indicates that the PSA is firing. the PSA is usually fired after the NSA because the \nmatching of the NMOS is better than tha matching of the PMOS.
+* CMOS book, Circuit Design, Layout, and Simulation  by R. Jacob Baker
+* Simulation Configuations
+* Looping through different Vdd values
+.step param X list 1 2 3 4
+* // Select a few volts only
+.param vdd=table(X, 1, 1.35V, 2, 1.1V, 3, 1.35V, 4, 1.1V)
+.param vddhalf=table(X, 1, 0.675V, 2, 0.55V, 3, 0.675V, 4, 0.55V)
+.param tw = 2.5um
+.param ntw = 1um
+.param pretw=2.5um
+.param prentw=2.5um
+.backanno
+.end

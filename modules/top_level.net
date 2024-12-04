@@ -1,0 +1,65 @@
+* C:\Users\sm1th.AD\Documents\LTspice\top_level.asc
+M1 N004 sense_N 0 0 nmos45lp l=0.27um w=0.22um
+VDD VDD 0 {vdd}
+VDDby2 VDDby2 0 {vddhalf}
+Vsp sense_P 0 PWL(37n {vdd} 37.05n 0 133n 0 133.005n {vdd}) Rser=100 Cpar=10fF
+M2 bitline1 bitline0 NLAT 0 nmos45hp l=0.16um w={ntw}
+M3 bitline0 bitline1 N004 0 nmos45hp l=0.16um w={ntw}
+M4 bitline1 Eq bitline0 0 nmos45hp l=0.16um w={prentw}
+M5 bitline0 Eq VDDby2 0 nmos45hp l=0.16um w={prentw}
+M6 VDDby2 Eq bitline1 0 nmos45hp l=0.16um w={prentw}
+Vra0 ra0 0 PWL(30n 0 30.5n 2.9 130n 2.9 130.5n 0) Rser=2048 Cpar=0.6pF
+M9 ACT sense_p VDD VDD pmos45lp l=0.27um w=0.22um
+M10 bitline1 bitline0 N002 VDD pmos45hp l=0.16um w={tw}
+M11 bitline0 bitline1 ACT VDD pmos45hp l=0.16um w={tw}
+Vsn sense_N 0 PWL(37n 0 37.005n {vdd} 133n {vdd} 133.005n 0) Rser=100 Cpar=10fF
+R6 N002 ACT 25000
+R7 NLAT N004 25000
+M12 bitline0 EqNot VDDby2 VDD pmos45hp l=0.16um w={pretw}
+M13 VDDby2 EqNot bitline1 VDD pmos45hp l=0.16um w={pretw}
+Veq1 EqNot 0 PWL(0n 1.5 0.6n 0 25.6n 0 26.2n {vdd} 32ns {vdd} 32.5ns 0 34.5ns 0 35ns {vdd} 133n {vdd} 133.6n 0)
+Veq2 Eq 0 PWL(0n 0 0.6n 1.5 25.6n 1.5 26.2n 0 32n 0 32.5n 1.5 34.5n 1.5 35n 0 133n 0 133.6n {vdd})
+XX1 N001 ra0 bit0 dram_cell
+XX4 N003 ra3 bit3 dram_cell
+XX2 N001 ra1 bit1 dram_cell
+XX3 N003 ra2 bit2 dram_cell
+R1 N001 bitline0 10000
+C1 N001 0 144f
+R2 bitline1 N003 10000
+C2 N003 0 144f
+Vra1 ra1 0 PWL(34n 0 34.5n 2.9 130n 2.9 130.5n 0) Rser=2048 Cpar=0.6pF
+Vra2 ra2 0 PWL(30n 0 30.5n 2.9 130n 2.9 130.5n 0) Rser=2048 Cpar=0.6pF
+Vra3 ra3 0 PWL(34n 0 34.5n 2.9 130n 2.9 130.5n 0) Rser=2048 Cpar=0.6pF
+
+* block symbol definitions
+.subckt dram_cell BIT WORD stored
+M8 N001 WORD stored 0 nmos45lp l=0.085um w=0.055um
+Cmbit1 stored 0 24fF
+R5 BIT N001 1000
+.include cmosedu_models.txt
+.ends dram_cell
+
+.model NMOS NMOS
+.model PMOS PMOS
+.lib C:\Users\sm1th.AD\AppData\Local\LTspice\lib\cmp\standard.mos
+.include cmosedu_models.txt
+.ic v(bitline0)={vddhalf} v(bitline1)={vddhalf} v(bit0)={vdd} v(bit1)={vddhalf} v(bit2)={vdd} v(bit3)=0
+.tran 230ns uic
+* Word line in array 1
+* CMOS Sense Amplifier
+* To pull the bit lines up to VDD, we have to add a PMOS sense amplifier or PSA. The signal ACT is\ncommon to all of the PSAs of the array (as NLAT for the NSA). The signal sense_P is active\nlow and indicates that the PSA is firing. the PSA is usually fired after the NSA because the \nmatching of the NMOS is better than tha matching of the PMOS.
+* CMOS book, Circuit Design, Layout, and Simulation  by R. Jacob Baker
+* Simulation Configuations
+* Looping through different Vdd values
+* .step param X list 1 2 3 4
+* // Select a few volts only
+* .param vdd=table(X, 1, 1.35V, 2, 1.1V, 3, 1.35V, 4, 1.1V)
+* .param vddhalf=table(X, 1, 0.675V, 2, 0.55V, 3, 0.675V, 4, 0.55V)
+.param tw = 2.5um
+.param ntw = 1um
+.param pretw=2.5um
+.param prentw=2.5um
+.param vdd=1.35V
+.param vddhalf=0.675V
+.backanno
+.end

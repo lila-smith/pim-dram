@@ -1,0 +1,11 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\sm1th.AD\Documents\LTspice\top_level.asc
+Start Time: Wed Dec  4 15:11:02 2024
+solver = Normal
+Maximum thread count: 24
+tnom = 27
+temp = 27
+method = modified trap
+Per .tran options, skipping operating point for transient analysis.
+Total elapsed time: 0.110 seconds.
+
